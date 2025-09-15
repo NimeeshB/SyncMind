@@ -5,6 +5,17 @@ import { db } from "@/db";
 import { user, session, account, verification } from "@/db/schema"; // ✅ import your tables
 
 export const auth = betterAuth({
+  socialProviders: {
+        github: { 
+            clientId: process.env.GITHUB_CLIENT_ID as string, 
+            clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
+        }, 
+        google: { 
+            clientId: process.env.GOOGLE_CLIENT_ID as string, 
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string, 
+        }, 
+  
+    },
   emailAndPassword: {
     enabled: true,
   },

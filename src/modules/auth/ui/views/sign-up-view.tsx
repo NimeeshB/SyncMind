@@ -5,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { OctagonAlertIcon } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
-
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import {Input } from "@/components/ui/input";
 import {Button } from "@/components/ui/button";
 import {
@@ -49,10 +49,32 @@ export const SignUpView = () => {
             name: data.name,
             email: data.email,
             password: data.password,
+            callbackURL: "/"
         },
         {onSuccess: () => {
             setPending(false);
             router.push("/");
+
+        },
+        onError: ({ error }) => {
+            setPending(false);
+            setError(error.message);
+        }
+    }
+
+    )
+    }
+
+    const onSocial = async(provider: "github" | "google") => {
+        setError(null);
+        setPending(true);
+        authClient.signIn.social({
+            provider: provider,
+            callbackURL: "/"
+        },
+        {onSuccess: () => {
+            setPending(false);
+            //router.push("/");
 
         },
         onError: ({ error }) => {
@@ -173,16 +195,19 @@ export const SignUpView = () => {
                         </span>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
-                        <Button disabled={pending} variant="outline"
+                        <Button disabled={pending}
+                        onClick={()=>{onSocial("google")}}
+                        variant="outline"
                         type="button"
-                        className="w-full">Google</Button>
-                        <Button  disabled={pending} variant="outline"
+                        className="w-full"><FaGoogle/></Button>
+                        <Button  disabled={pending}
+                        onClick={()=>{onSocial("github")}} variant="outline"
                         type="button"
-                        className="w-full">Github</Button>
+                        className="w-full"><FaGithub/></Button>
                       </div>
                       <div className="text-center text-sm">
                         Already have an account? {" "} 
-                        <Link href="/sign-in" className="underline underline-offset-4">Sign In</Link>
+                        <Link href="/sign-up" className="underline underline-offset-4">Sign Up</Link>
                       </div>
                       
                     </div>
