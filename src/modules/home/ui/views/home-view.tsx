@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner"; // or "react-hot-toast"
-import {  useRouter } from "next/router";
+import {  useRouter } from "next/navigation";
 
 
 
